@@ -18,13 +18,14 @@ class _BMICalculatorState extends State<BMICalculator> {
 
   void calculateBMI(String weight, String height) async {
     double doubleWeight = double.parse(weight);
-    double doubleHeight = double.parse(height);
+    double doubleHeight = double.parse(height) / 100; // Convert cm to meters
 
     double bmi = (doubleWeight / (doubleHeight * doubleHeight));
 
     setState(() {
       mainResult.text = bmi.toStringAsFixed(2);
       myColor = getBMIColor(bmi); // Use the color function
+      print("BMI: $bmi, Color: $myColor");
     });
   }
 
@@ -44,12 +45,9 @@ class _BMICalculatorState extends State<BMICalculator> {
 
   @override
   Widget build(BuildContext context) {
-    // Height of current screen.
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [const Color(0xFF6DD5ED), const Color(0xFF2193B0)],
@@ -85,7 +83,7 @@ class _BMICalculatorState extends State<BMICalculator> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsGeometry.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextField(
                     controller: heightController,
                     keyboardType: TextInputType.numberWithOptions(
@@ -109,30 +107,61 @@ class _BMICalculatorState extends State<BMICalculator> {
                   calculate: calculateBMI,
                 ),
                 SizedBox(height: 80),
-
-                // BMI category color indicators.
                 Center(
+                  child: Container(
+                    width: 300,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: myColor,
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "BMI: " + mainResult.text,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // BMI category color indicators.
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CatagoryIndicator(
-                        color: Color(0xFF87B1D9),
-                        label: "Underweight",
+                      Flexible(
+                        child: CatagoryIndicator(
+                          color: Color(0xFF87B1D9),
+                          label: "Under",
+                        ),
                       ),
-                      CatagoryIndicator(
-                        color: Color(0xFF3DD365),
-                        label: "Normal",
+                      Flexible(
+                        child: CatagoryIndicator(
+                          color: Color(0xFF3DD365),
+                          label: "Normal",
+                        ),
                       ),
-                      CatagoryIndicator(
-                        color: Color(0xFFEEE133),
-                        label: "Overweight",
+                      Flexible(
+                        child: CatagoryIndicator(
+                          color: Color(0xFFEEE133),
+                          label: "Over",
+                        ),
                       ),
-                      CatagoryIndicator(
-                        color: Color(0xFFFD802E),
-                        label: "Obese",
+                      Flexible(
+                        child: CatagoryIndicator(
+                          color: Color(0xFFFD802E),
+                          label: "Obese",
+                        ),
                       ),
-                      CatagoryIndicator(
-                        color: Color(0xFFF95353),
-                        label: "Extreme",
+                      Flexible(
+                        child: CatagoryIndicator(
+                          color: Color(0xFFF95353),
+                          label: "Extreme",
+                        ),
                       ),
                     ],
                   ),

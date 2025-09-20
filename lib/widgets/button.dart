@@ -15,15 +15,18 @@ class GoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsGeometry.only(top: 50),
+      padding: const EdgeInsets.only(top: 50),
       child: Center(
         child: SizedBox(
           width: 180,
           height: 50,
           child: ElevatedButton(
             onPressed: () {
+              print("Pressed");
               String weight = weightController.text;
+              print(weight);
               String height = heightController.text;
+              print(height);
               calculate(weight, height);
             },
             style: ButtonStyle(
